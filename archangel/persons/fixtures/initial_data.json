@@ -1,0 +1,11 @@
+[
+    {
+        "model": "persons.person",
+        "pk": 2,
+        "fields": {
+            "full_name": "Петров Петр Петрович",
+            "worker": "прихожанин",
+            "description": "Инженер по качеству"
+        }
+    }
+]

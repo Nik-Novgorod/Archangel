@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #b6a3a3;
+}
+
+h1 {
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    padding: 8px;
+    width: 400px;
+}
+
+#searchButton, #resetButton, #showAllButton {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/* Стили для списка */
+.list-container {
+    max-width: 800px;
+    margin: 0 auto;
+    list-style-type: none; /* убираем маркеры */
+    padding: 0;
+}
+
+.list-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,8.9);
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+/* Стили для букв */
+.letters-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.letter-button {
+    padding: 6px 10px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.letter-button:hover {
+     background-color: #e0e0e0;
+}
+/* Стили для детальной страницы */
+.details-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+/*
+.details-container h1 {
+    text-align:center;
+    margin-bottom: 150px;
+}
+
+.details-container p {
+    margin-bottom: 100px;
+    font-size: 16px;
+}
+
+.details-container button {
+    padding: 8px 16px;
+    margin-top: 105px;
+    cursor: pointer;
+}*/
+/* Стиль для обрезанного описания */
+.description-preview {
+    color: #666;
+    font-style: italic;
+    cursor:pointer; /* Курсор "справка" при наведении */
+}
+
+/* Эффект при наведении на карточку */
+.list-item:hover {
+    background-color: #f9f9f9;
+    transform: translateY(-20px);
+    transition: all 0.9s ease;
+}
+.description-preview {
+    /*color: #57da23;
+    font-style: italic;*/
+    cursor: help;
+    transition: all 0.3s ease;
+}
+
+.description-preview:hover {
+    color: #473f3f;
+}
+
+.list-item {
+    transition: transform 0.2s ease;
+}
+
+.list-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.list-item h3 {
+    margin: 0 0 10px 0;
+   /* color: #a9c4ce;
+    font-size: 1.2em;*/
+}
+
+.list-item p {
+    margin: 5px 0;
+    color: #1abc30;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Детальная информация</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="details-container">
+        <h1 id="detailName"></h1>
+        <p id="detailWorker"></p>
+        <p id="detailDescription"></p>
+        <button onclick="window.close()">Закрыть</button>
+    </div>
+
+    <script>
+        // Получаем данные из localStorage
+        const record = JSON.parse(localStorage.getItem('currentRecord'));
+        
+        // Заполняем страницу данными
+        if (record) {
+            document.getElementById('detailName').textContent = record.fullName;
+            document.getElementById('detailWorker').textContent = 'Статус: ' + record.worker;
+            document.getElementById('detailDescription').textContent = 'Описание: ' + record.description;
+        } else {
+            document.getElementById('detailName').textContent = 'Запись не найдена';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Карточка сотрудника</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .card-details {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .back-button {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-details" id="cardDetails">
+        <div class="loading" id="loadingIndicator">Загрузка данных...</div>
+    </div>
+
+    <button class="back-button" onclick="window.history.back()">Назад к списку</button>
+
+    <script>
+        // 1. Получаем id из имени файла (card1.html -> id=1)
+        const cardId = parseInt(window.location.pathname.split('card')[1].split('.')[0]);
+        const cardDetails = document.getElementById('cardDetails');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // 2. Функция для загрузки данных с сервера
+        async function loadPersonDetails(id) {
+            try {
+                // В реальном проекте замените URL на ваш API endpoint
+                const response = await fetch(`http://localhost:8000/api/persons/${id}/`);
+                
+                if (!response.ok) {
+                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
+                throw error;
+            }
+        }
+
+        // 3. Функция для отображения данных
+        function displayPersonDetails(person) {
+            if (!person) {
+                cardDetails.innerHTML = '<h1 class="error">Карточка не найдена</h1>';
+                return;
+            }
+
+            cardDetails.innerHTML = `
+                <h1>${person.full_name || person.fullName}</h1>
+                <p><strong>Статус:</strong> ${person.worker}</p>
+                <p><strong>Описание:</strong></p>
+                <p style="white-space: pre-line">${person.description}</p>
+            `;
+            
+            document.title = `Карточка: ${person.full_name || person.fullName}`;
+        }
+
+        // 4. Основная функция инициализации
+        async function init() {
+            try {
+                // Сначала проверяем локальные данные (из вашего примера)
+                const localRecords = [
+                    { id: 1, fullName: 'Абрамов Василий Васильевич', worker: "монах", description: "1895 – родился и проживал в д. Веркола Пинежского р-на Архангельской обл. Был насельником Артемие-Веркольского монастыря Архангельской губернии.\n\n1937, 15 декабря - арестован по обвинению в \"контрреволюционной агитации\".\n\n1938, 2 января – постановлением особого совещания тройки УНКВД приговорен к расстрелу.\n\n1938, 11 января – расстрелян.\n\n1989, 31 мая – реабилитирован посмертно." },
+                    { id: 2, fullName: 'Петров Петр Петрович', worker: "прихожанин", description: 'Инженер по качеству' },
+                    { id: 3, fullName: 'Сидорова Мария Алексеевна', worker: "протоиерей", description: 'Бухгалтер' },
+                    { id: 4, fullName: 'Кузнецов Алексей Викторович', worker: "архиепископ", description: 'Дизайнер' },
+                ];
+
+                const localRecord = localRecords.find(r => r.id === cardId);
+                if (localRecord) {
+                    displayPersonDetails(localRecord);
+                    return;
+                }
+
+                // Если локальной записи нет, пробуем загрузить с сервера
+                loadingIndicator.textContent = "Загрузка данных с сервера...";
+                const personData = await loadPersonDetails(cardId);
+                displayPersonDetails(personData);
+                
+            } catch (error) {
+                cardDetails.innerHTML = `
+                    <h1 class="error">Ошибка загрузки данных</h1>
+                    <p>${error.message}</p>
+                    <p>Попробуйте перезагрузить страницу.</p>
+                `;
+                console.error('Ошибка:', error);
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Запускаем при загрузке страницы
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
